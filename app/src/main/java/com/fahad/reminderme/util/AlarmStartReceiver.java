@@ -13,7 +13,7 @@ import com.fahad.reminderme.MainActivity;
  * Created by moodi on 26/01/2018.
  */
 
-public class AlarmStartReciver extends BroadcastReceiver {
+public class AlarmStartReceiver extends BroadcastReceiver {
 
     private String Message;
     private String CardType;

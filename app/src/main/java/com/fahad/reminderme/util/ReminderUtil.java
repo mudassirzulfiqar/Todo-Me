@@ -18,7 +18,7 @@ public class ReminderUtil {
 
     public static void StartTimeAlarmSet(Context context, long timeMilli, int IdOfCard) {
 
-        Intent alarmIntent = new Intent(context, AlarmStartReciver.class);
+        Intent alarmIntent = new Intent(context, AlarmStartReceiver.class);
         alarmIntent.putExtra("id", String.valueOf(IdOfCard));
 
 
@@ -29,7 +29,7 @@ public class ReminderUtil {
     }
 
     public static void StartTimeAlarmCancel(Context context, int IdOfCard) {
-        Intent alarmIntent = new Intent(context, AlarmStartReciver.class);
+        Intent alarmIntent = new Intent(context, AlarmStartReceiver.class);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(PendingIntent.getBroadcast(context, IdOfCard, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT));
     }

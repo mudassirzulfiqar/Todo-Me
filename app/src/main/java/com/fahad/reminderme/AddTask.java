@@ -3,11 +3,12 @@ package com.fahad.reminderme;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class AddTask extends AppCompatActivity {
+import com.fahad.reminderme.util.BaseActivity;
+
+public class AddTask extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,11 @@ public class AddTask extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public String getProgressDialogName() {
+        return "";
     }
 
 }

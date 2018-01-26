@@ -28,6 +28,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fahad.reminderme.MainActivity" />
         </activity>
+
+        <receiver android:name=".util.AlarmStartReceiver" />
+
     </application>
 
 </manifest>
