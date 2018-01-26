@@ -5,11 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.fahad.reminderme.model.Todo;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * Created by moodi on 26/01/2018.
@@ -18,12 +19,12 @@ import java.util.ArrayList;
 public class DbHelper extends SQLiteOpenHelper {
 
 
-    public static final String DATABASE_NAME = "Todo.db";
-    public static final String TABLE_NAME = "todo_table";
-    public static final int VERSION = 1;
-    public static final String ID = "id"; // 0
-    public static final String TITLE = "title"; // 1
-    public static final String START_TIME = "start_time"; // 2
+    private static final String DATABASE_NAME = "Todo.db";
+    private static final String TABLE_NAME = "todo_table";
+    private static final int VERSION = 1;
+    private static final String ID = "id"; // 0
+    private static final String TITLE = "title"; // 1
+    private static final String START_TIME = "start_time"; // 2
 
     private Context context;
 
@@ -77,9 +78,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         + TABLE_NAME
                 , null);
 
-        cursor.moveToFirst();
-
-        if (!cursor.isAfterLast()) {
+        if (cursor.moveToFirst()) {
             do {
                 String id = cursor.getString(0);
                 String title = cursor.getString(1);
@@ -87,7 +86,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
                 Todo todo = new Todo(title, time, id);
                 todoList.add(todo);
-            } while (cursor.moveToFirst());
+            } while (cursor.moveToNext());
         }
 
         return todoList;
@@ -112,17 +111,15 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = '" + itemId + "' "
                 , null);
-        Log.d("cursor", "in getting data by id ");
-        cursor.moveToFirst();
+        Timber.d("in getting data by id ");
 
-        if (!cursor.isAfterLast()) {
-            do {
-                String id = cursor.getString(0);
-                String title = cursor.getString(1);
-                String time = cursor.getString(2);
-                todo = new Todo(title, time, id);
-            } while (cursor.moveToFirst());
-        }
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        String id = cursor.getString(0);
+        String title = cursor.getString(1);
+        String time = cursor.getString(2);
+        todo = new Todo(title, time, id);
         return todo;
     }
 

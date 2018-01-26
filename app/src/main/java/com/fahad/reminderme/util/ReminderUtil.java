@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import timber.log.Timber;
+
 /**
  * Created by moodi on 26/01/2018.
  */
@@ -16,14 +18,16 @@ public class ReminderUtil {
     double HOUR = MINUTE * 60;
     double DAY = HOUR * 24;
 
-    public static void StartTimeAlarmSet(Context context, long timeMilli, int IdOfCard) {
+    public static void StartTimeAlarmSet(Context context, String timeMilli, int IdOfCard, String title) {
 
         Intent alarmIntent = new Intent(context, AlarmStartReceiver.class);
         alarmIntent.putExtra("id", String.valueOf(IdOfCard));
+        alarmIntent.putExtra("title", title);
 
+        Timber.d("time : " + timeMilli);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeMilli - 5 * SECOND,
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, Long.valueOf(timeMilli),
                 PendingIntent.getBroadcast(context, IdOfCard, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
     }

@@ -6,32 +6,37 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.WakefulBroadcastReceiver;
 
 import com.fahad.reminderme.MainActivity;
+
+import timber.log.Timber;
 
 /**
  * Created by moodi on 26/01/2018.
  */
 
-public class AlarmStartReceiver extends BroadcastReceiver {
+public class AlarmStartReceiver extends WakefulBroadcastReceiver {
 
-    private String Message;
-    private String CardType;
-    private String id;
-    private String Switch;
-    private String Title;
+
+    private String title;
+    private Integer id;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         // TODO: 26/01/2018 Get Name and from Database
 
-//        createNotification(context, );
+        Timber.d("Alarm on");
 
+        id = intent.getIntExtra("id", 12);
+        title = intent.getStringExtra("title");
+
+        createNotification(context, title, "Reminder", id);
     }
 
 
-    public void createNotification(Context context, String title, String text, int icon, int id) {
+    public void createNotification(Context context, String title, String text, int id) {
 
         Intent intent = new Intent(context, MainActivity.class);
 
@@ -39,12 +44,10 @@ public class AlarmStartReceiver extends BroadcastReceiver {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
-                .setContentTitle(title)
-                .setSmallIcon(icon)
-                .setOngoing(true);
+                .setContentTitle(title);
 
         notification.setContentIntent(pendingIntent);
-        notification.setAutoCancel(false);
+        notification.setAutoCancel(true);
 
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
